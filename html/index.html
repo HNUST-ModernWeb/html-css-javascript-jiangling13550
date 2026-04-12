@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>个人信息卡片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", sans-serif;
+        }
+
+        /* 页面背景白色 */
+        body {
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .title {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        /* 卡片粉色 */
+        .card {
+            width: 100%;
+            max-width: 420px;
+            background: #ffe6f0;
+            border-radius: 18px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .avatar-box {
+            text-align: center;
+        }
+
+        #avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ffcce0;
+            margin-bottom: 8px;
+        }
+
+        #avatarLabel {
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            display: block;
+            text-align: center;
+        }
+
+        #avatarInput {
+            display: none;
+        }
+
+        input, textarea {
+            padding: 12px;
+            border: 1px solid #ffcce0;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            background: #fff;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: none;
+        }
+
+        .edit-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .show-area {
+            display: none;
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        #showName {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff4488;
+        }
+
+        #showIntro {
+            color: #666;
+            font-size: 15px;
+        }
+
+        #saveBtn {
+            padding: 13px;
+            background: #ff8fb1;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #saveBtn:hover {
+            background: #ff709b;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="title">个人信息卡片</h1>
+
+    <div class="card">
+        <div class="avatar-box">
+            <img id="avatar" src="https://picsum.photos/200/200" alt="头像">
+            <label id="avatarLabel">更换头像</label>
+            <input type="file" id="avatarInput" accept="image/*">
+        </div>
+
+        <div class="edit-area" id="editArea">
+            <input type="text" id="nameInput" placeholder="请输入姓名" value="刘欢">
+            <textarea id="introInput" placeholder="请输入个人简介">热爱编程，喜欢游戏开发</textarea>
+        </div>
+
+        <div class="show-area" id="showArea">
+            <div id="showName"></div>
+            <div id="showIntro"></div>
+        </div>
+
+        <button id="saveBtn">保存</button>
+    </div>
+
+    <script>
+        const avatar = document.getElementById('avatar');
+        const avatarInput = document.getElementById('avatarInput');
+        const avatarLabel = document.getElementById('avatarLabel');
+        const nameInput = document.getElementById('nameInput');
+        const introInput = document.getElementById('introInput');
+        const saveBtn = document.getElementById('saveBtn');
+        const editArea = document.getElementById('editArea');
+        const showArea = document.getElementById('showArea');
+        const showName = document.getElementById('showName');
+        const showIntro = document.getElementById('showIntro');
+
+        avatarLabel.addEventListener('click', () => avatarInput.click());
+
+        avatarInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                avatar.src = URL.createObjectURL(file);
+            }
+        });
+
+        saveBtn.addEventListener('click', function () {
+            const name = nameInput.value.trim();
+            const intro = introInput.value.trim();
+
+            if (!name || !intro) {
+                alert('姓名和简介不能为空！');
+                return;
+            }
+
+            showName.textContent = name;
+            showIntro.textContent = intro;
+
+            editArea.style.display = 'none';
+            showArea.style.display = 'block';
+
+            alert('保存成功！');
+        });
+    </script>
+</body>
+</html>
